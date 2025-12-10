@@ -9,6 +9,8 @@ import { Server } from "socket.io";
 
 import mongoose, { mongo } from "mongoose";
 
+import userRoutes from "./routes/users.routes.js"
+
 import cors from "cors";
 
 const app = express();
@@ -20,6 +22,8 @@ app.use(cors());
 app.use(express.json({ limit: "40kb" }));
 app.use(express.urlencoded({ limit: "40kb", extended: true }));
 
+app.use("/api/v1/users", userRoutes);
+
 const start = async ()=>{
     // app.set('mong_user');
     const mongoURL = process.env.MONGODB_URI
@@ -27,7 +31,7 @@ const start = async ()=>{
     const connectionDB = await mongoose.connect(mongoURL)
     console.log("DB connection name: ", connectionDB.connection.name)
         server.listen(app.get('port'), ()=>{
-        console.log("app listen on port 8000")
+        console.log(`app listen on port 8000 `)
     });
 }
 
